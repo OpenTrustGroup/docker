@@ -1,0 +1,15 @@
+*** Only For OTG team members ***
+
+Due to Google drive does not support web hosting any more,
+please download auth_data folder from "Team Information/auth_data"
+by hands.
+
+
+== How To Use ==
+
+- cd /devel
+- git clone https://github.com/OpenTrustGroup/docker.git
+- cd docker
+- (Download auth_data folder from OTG Google drive)
+- docker-compose up -d
+

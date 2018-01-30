@@ -1,0 +1,32 @@
+version: '3'
+services:
+  jenkins:
+    build: jenkins/
+    ports:
+     - "8083:8083"
+    volumes:
+      - jenkins-home:/var/jenkins_home
+      - ${AUTH_DATA_DIR}/https.pem:/var/lib/jenkins/cert:ro
+      - ${AUTH_DATA_DIR}/https.key:/var/lib/jenkins/pk:ro
+      - ${AUTH_DATA_DIR}/id_rsa:/var/jenkins_home/.ssh/id_rsa:ro
+      - ${AUTH_DATA_DIR}/id_rsa.pub:/var/jenkins_home/.ssh/id_rsa.pub:ro
+      - ${AUTH_DATA_DIR}/ssh_config:/var/jenkins_home/.ssh/config
+      - ${AUTH_DATA_DIR}/known_hosts:/var/jenkins_home/.ssh/known_hosts
+      - ${AUTH_DATA_DIR}/netrc:/var/jenkins_home/.netrc:ro
+
+  jenkins-slave:
+    build: jenkins-slave/
+    ports:
+      - "10022:22"
+    volumes:
+      - jenkins-slave-home:/home/jenkins
+      - ${AUTH_DATA_DIR}/id_rsa.pub:/home/jenkins/.ssh/authorized_keys:ro
+      - ${AUTH_DATA_DIR}/id_rsa.pub:/home/jenkins/.ssh/id_rsa.pub:ro
+      - ${AUTH_DATA_DIR}/id_rsa:/home/jenkins/.ssh/id_rsa:ro
+      - ${AUTH_DATA_DIR}/ssh_config:/home/jenkins/.ssh/config
+      - ${AUTH_DATA_DIR}/known_hosts:/home/jenkins/.ssh/known_hosts
+      - ${AUTH_DATA_DIR}/netrc:/home/jenkins/.netrc:ro
+
+volumes:
+  jenkins-home:
+  jenkins-slave-home:
