@@ -1,6 +1,6 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
-FROM ubuntu:trusty
-MAINTAINER Ervin Varga <ervin.varga@gmail.com>
+FROM ubuntu:xenial
+MAINTAINER James Kung <kong1191@gmail.com>
 
 # In case you need proxy
 #RUN echo 'Acquire::http::Proxy "http://127.0.0.1:8080";' >> /etc/apt/apt.conf
@@ -8,6 +8,8 @@ MAINTAINER Ervin Varga <ervin.varga@gmail.com>
 # Add locales after locale-gen as needed
 # Upgrade packages on image
 # Preparations for sshd
+RUN apt-get -q update &&\
+    DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew" --no-install-recommends locales sudo
 RUN locale-gen en_US.UTF-8 &&\
     apt-get -q update &&\
     DEBIAN_FRONTEND="noninteractive" apt-get -q upgrade -y -o Dpkg::Options::="--force-confnew" --no-install-recommends &&\
@@ -38,7 +40,7 @@ RUN dpkg --add-architecture i386 &&\
     libftdi-dev libglib2.0-dev libhidapi-dev libncurses5-dev \
     libpixman-1-dev libssl-dev libstdc++6:i386 libtool libz1:i386 make \
     mtools netcat python-crypto python-serial python-wand unzip uuid-dev \
-    xdg-utils xterm xz-utils zlib1g-dev \
+    xdg-utils xterm xz-utils zlib1g-dev python3-pexpect python-pexpect \
     texinfo liblz4-tool libsdl-dev golang git &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
