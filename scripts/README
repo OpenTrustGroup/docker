@@ -1,0 +1,6 @@
+./jenkins_data_backup.sh
+Backup jenkins working directory in jenkins docker.
+
+./jenkins_data_restore.sh <backup file>
+Restore jenkins working directory. The backup file should put in the same folder
+as the restore script.
